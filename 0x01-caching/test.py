@@ -3,10 +3,12 @@
 
 BaseCaching = __import__('base_caching').BaseCaching
 
+
 class LIFOCache(BaseCaching):
     def __init__(self):
         super().__init__()
-        self.order = []  # Maintain the order of keys by insertion time (most recent first)
+        # Maintain the order of keys by insertion time (most recent first)
+        self.order = []
 
     def get(self, key):
         if key in self.cache_data:
@@ -43,4 +45,3 @@ if __name__ == "__main__":
     my_cache.print_cache()
     my_cache.put("G", "San Francisco")
     my_cache.print_cache()
-

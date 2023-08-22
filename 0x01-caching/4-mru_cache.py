@@ -3,7 +3,7 @@
 BaseCaching = __import__('base_caching').BaseCaching
 
 
-class LIFOCache(BaseCaching):
+class MRUCache(BaseCaching):
     '''FIFOCache inheriting from BaseCaching Class'''
 
     def __init__(self):
@@ -17,18 +17,22 @@ you must print DISCARD: with the key discarded and following by a new line'''
         if key is None or item is None:
             return
         if key in self.cache_data:
+            self.order.remove(key)
+            self.order.insert(0, key)
             self.cache_data[key] = item
         else:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                popped_key = self.order.pop()
+                popped_key = self.order.pop(0)
                 print(f'DISCARD: {popped_key}')
                 del self.cache_data[popped_key]
             self.cache_data[key] = item
-        self.order.append(key)
+            self.order.insert(0, key)
 
     def get(self, key):
         '''Must return the value in self.cache_data linked to key.If key\
  is None or if the key doesn't exist in self.cache_data, return None'''
         if key is None or key not in self.cache_data:
             return None
+        self.order.remove(key)
+        self.order.insert(0, key)
         return self.cache_data[key]
