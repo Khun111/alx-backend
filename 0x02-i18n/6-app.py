@@ -27,10 +27,11 @@ def get_locale():
     locale = request.args.get('locale')
     if locale in app.config['LANGUAGES']:
         return locale
-    elif g.user and 'locale' in g.user:
-        return g.user['locale']
+    locale = g.user['locale']
+    if locale in app.config['LANGUAGES']:
+        return locale
     locale = request.accept_languages.best_match(app.config["LANGUAGES"])
-    return locale if locale else 'en'
+    return locale if locale in app.config['LANGUAGES'] else 'en'
 
 
 app.config.from_object(Config)
