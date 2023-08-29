@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 '''Basic flask app'''
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
@@ -13,12 +12,14 @@ class Config:
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
+
 users = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
     2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
     3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
     4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
 }
+
 
 @babel.localeselector
 def get_locale():
@@ -34,9 +35,11 @@ def get_locale():
 
 app.config.from_object(Config)
 
+
 def get_user(user_id):
     '''Function to get user dictionary'''
     return users[user_id]
+
 
 @app.before_request
 def before_request():
@@ -47,8 +50,10 @@ def before_request():
 
 @app.route('/')
 def home():
+    '''Index page view'''
     user = g.user['name'] if g.user else None
-    return render_template('5-index.html', user=user)
+    return render_template('6-index.html', user=user)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
